@@ -1,0 +1,129 @@
+﻿<Window x:Name="Window" x:Class="druh_1.MainWindow" ResizeMode="NoResize"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:druh_1"
+        mc:Ignorable="d"
+        Title="Urodziny Wielkich i Mniejszych Druhów OSP Nałęczów" Closing="Window_Closing" FontFamily="Comic Sans MS"  Initialized="Window_Initialized" Height="420" Width="760" FontWeight="Bold" Icon="bin/Debug/POL_Nałęczów_COA.png">
+    <Window.Resources>
+        <Style x:Key="CalendarDayButtonStyle" TargetType="{x:Type CalendarDayButton}">
+            <Setter Property="TextElement.FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Date}" >
+                    <Setter Property="Background" Value="Turquoise"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="Comic Sans MS" />
+        </Style>
+    </Window.Resources>
+
+    <Window.Background>
+        <ImageBrush ImageSource="bin/Debug/poziomy.jpg"/>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="380"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.75" >
+            <StackPanel>
+                <TextBox Name="tbClock" Width ="111" Text="12:00" TextAlignment="Center" FontSize="36" FontFamily="Comic Sans MS" Margin="135,10,124,10" Background="White" Opacity="0.8" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBox x:Name="tbGreeting" Text="It's great weather today!" Background="White" Opacity="0.9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbSoonBd" Text="Najbliższe urodziny ma:  Druh Kacper Rząd w dniu 8 stycznia" Background="White" Opacity="0.9" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="1,0,-16,0" Width="385"/>
+                <!--KALENDARZE-->
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Calendar x:Name="calendar" CalendarDayButtonStyle="{StaticResource CalendarDayButtonStyle}" Grid.Column="0" DisplayDateChanged="calendar_DisplayDateChanged" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="White" Opacity="0.9" />
+                    <Calendar x:Name="calendar1" CalendarDayButtonStyle="{StaticResource CalendarDayButtonStyle}" Grid.Column="1" IsTodayHighlighted="False" IsHitTestVisible="False" Loaded="calendar1_Loaded" Background="White" BorderBrush="{x:Null}" Foreground="{x:Null}" Opacity="0.9"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Column="0" Fill="Red"/>
+                    <TextBox Grid.Column="1" Text="Druh Zwykły1" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                    <Rectangle Grid.Column="2" Fill="LawnGreen"/>
+                    <TextBox Grid.Column="3" Text="Druh Zwykły2" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                    <Rectangle Grid.Column="4" Fill="Gold"/>
+                    <TextBox Grid.Column="5" Text="Druh Młody" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                    <Rectangle Grid.Column="6" Fill="HotPink"/>
+                    <TextBox Grid.Column="7" Text="Członek zarządu" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                    <Rectangle Grid.Column="8" Fill="LightSkyBlue"/>
+                    <TextBox Grid.Column="9" Text="Członek honorowy" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="0" Opacity="0.7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="190*"/>
+                <ColumnDefinition Width="151*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.ColumnSpan="2">
+                <TextBox Text="Nadchodzące urodziny:" HorizontalAlignment="Center" />
+                <ListView x:Name="lvCommingSoon"  MaxHeight="300" MouseDoubleClick="lvCommingSoon_MouseDoubleClick" HorizontalAlignment="Center" SelectionChanged="lvCommingSoon_SelectionChanged" />
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btAdd" Grid.Column="0" Content="Dodaj druha" Click="btAdd_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button x:Name="btRemove" Grid.Column="4" Content="Usuń druha" Height="21" VerticalAlignment="Center" Click="btRemove_Click" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="gAddMember" Visibility="Hidden" Opacity="1" >
+            <Grid.Background>
+                <ImageBrush ImageSource="bin/Debug/pionowy.jpg"/>
+            </Grid.Background>
+            <StackPanel Margin="10, 10, 10, 10">
+                <TextBlock  Text="Dodawanie nowego druha:" FontFamily="Comic Sans MS" Margin="10, 0, 10, 10" TextAlignment="Center" FontWeight="ExtraBlack" Foreground="Red"/>
+                <StackPanel x:Name="spPicker" Opacity="0.8">
+
+                    <TextBlock Text="Imię:" FontFamily="Comic Sans MS" Foreground="Red" />
+                    <TextBox AcceptsReturn="False" MaxHeight="130" FontFamily="Comic Sans MS" AcceptsTab="False" TextWrapping="Wrap" Padding="5" MinLines="2" x:Name="tbImieNowego"/>
+                    <TextBlock Text="Nazwisko:" FontFamily="Comic Sans MS" Foreground="Red" />
+                    <TextBox AcceptsReturn="False" MaxHeight="130" FontFamily="Comic Sans MS" AcceptsTab="False" TextWrapping="Wrap" Padding="5" MinLines="2" x:Name="tbNazwiskoNowego"/>
+                    <TextBlock Text="Data urodzenia:"  FontFamily="Comic Sans MS" Foreground="Red"  />
+                    <DatePicker Padding="5" Text="Wybierz datę" FontFamily="Comic Sans MS"  x:Name="dpDataNowego" Margin="0,0,0,10" Background="White" Foreground="Red"/>
+                    <TextBlock Text="Status druha:" FontFamily="Comic Sans MS" Foreground="Red"  />
+                    <ComboBox Margin="0,0,0,10" Padding="5" FontFamily="Comic Sans MS" SelectedIndex="4" x:Name="cbStatusNowego" Foreground="Red" >
+                        <ComboBoxItem Content="Zwykły 1"/>
+                        <ComboBoxItem Content="Zwykły 2"/>
+                        <ComboBoxItem Content="Młody"/>
+                        <ComboBoxItem Content="Członek zarządu"/>
+                        <ComboBoxItem Content="Członek honorowy"/>
+                    </ComboBox>
+
+                    <Grid Margin="0,30,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btAcceptNewEvent" Content="Zatwierdź" Margin="10,0,10,0" FontFamily="Comic Sans MS" Click="btAcceptNewEvent_Click" Foreground="Red" />
+                        <Button x:Name="btCancelNewEvent" Content="Anuluj" Grid.Column="1" Margin="10,0,10,0" FontFamily="Comic Sans MS" Click="btCancelNewEvent_Click" Foreground="Red" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
